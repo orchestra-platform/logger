@@ -2,9 +2,7 @@
 
 module.exports = class Logger {
 
-    constructor(logLevel) {
-        if (!logLevel)
-            logLevel = Logger.LOG_LEVELS.WARN;
+    constructor(logLevel = Logger.LOG_LEVELS.WARN) {
         if (typeof logLevel === 'string')
             logLevel = Logger._getLogLevelFromString(logLevel);
         this._logLevel = logLevel;
