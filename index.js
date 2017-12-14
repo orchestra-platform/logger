@@ -1,10 +1,15 @@
 'use strict';
 
-module.exports = class Logger {
 
-    constructor(logLevel) {
-        if (!logLevel)
-            logLevel = Logger.LOG_LEVELS.WARN;
+/**
+ * Just a simple logger.
+ * The available log levels are: INFO, DEBUG, WARN, ERROR
+ * @class Logger
+ * @param {Number} logLevel - Must be one of Logger.LOG_LEVELS.
+ */
+class Logger {
+
+    constructor(logLevel = Logger.LOG_LEVELS.WARN) {
         if (typeof logLevel === 'string')
             logLevel = Logger._getLogLevelFromString(logLevel);
         this._logLevel = logLevel;
@@ -19,18 +24,46 @@ module.exports = class Logger {
         }
     }
 
+    /**
+     * Call Logger.write with logLevel = Logger.LOG_LEVELS.INFO
+     * @param {String} file
+     * @param {String} method 
+     * @param {String} msg 
+     * @param {String|Object} output - If it's an Object it will be stringified
+     */
     i(file, method, msg, output) {
         this.write(Logger.LOG_LEVELS.INFO, file, method, msg, output);
     }
 
+    /**
+     * Call Logger.write with logLevel = Logger.LOG_LEVELS.DEBUG
+     * @param {String} file
+     * @param {String} method 
+     * @param {String} msg 
+     * @param {String|Object} output - If it's an Object it will be stringified
+     */
     d(file, method, msg, output) {
         this.write(Logger.LOG_LEVELS.DEBUG, file, method, msg, output);
     }
 
+    /**
+     * Call Logger.write with logLevel = Logger.LOG_LEVELS.WARN
+     * @param {String} file
+     * @param {String} method 
+     * @param {String} msg 
+     * @param {String|Object} output - If it's an Object it will be stringified
+     */
     w(file, method, msg, output) {
         this.write(Logger.LOG_LEVELS.WARN, file, method, msg, output);
     }
 
+    /**
+     * Call Logger.write with logLevel = Logger.LOG_LEVELS.ERROR
+     * @param {String} file
+     * @param {String} method 
+     * @param {String} msg 
+     * @param {String|Object} output - If it's an Object it will be stringified
+     */
     e(file, method, msg, output) {
         this.write(Logger.LOG_LEVELS.ERROR, file, method, msg, output);
     }
@@ -50,6 +83,14 @@ module.exports = class Logger {
         return string.toUpperCase() || 'UNKNOW';
     }
 
+    /**
+     * It prints a log to the console
+     * @param {Number} logLevel - Must be one of Logger.LOG_LEVELS
+     * @param {String} file
+     * @param {String} method 
+     * @param {String} msg 
+     * @param {String|Object} output - If it's an Object it will be stringified
+     */
     write(logLevel, file, method, msg, output) {
         if (typeof logLevel === 'string')
             logLevel = Logger._getLogLevelFromString(logLevel);
@@ -85,3 +126,5 @@ module.exports = class Logger {
     }
 
 }
+
+module.exports = Logger;
