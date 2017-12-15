@@ -8,6 +8,7 @@
     -   [w](#w)
     -   [e](#e)
     -   [write](#write)
+    -   [getLogger](#getlogger)
 
 ## Logger
 
@@ -16,7 +17,9 @@ The available log levels are: INFO, DEBUG, WARN, ERROR
 
 **Parameters**
 
--   `logLevel` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Must be one of Logger.LOG_LEVELS.
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `options.logLevel` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Must be one of Logger.LOG_LEVELS. (optional, default `Logger.LOG_LEVELS.WARN`)
+    -   `options.name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the logger (optional, default `'Logger'`)
 
 ### i
 
@@ -73,3 +76,11 @@ It prints a log to the console
 -   `method` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `msg` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `output` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object))** If it's an Object it will be stringified
+
+### getLogger
+
+It returns the Logger instance with the specified name
+
+**Parameters**
+
+-   `name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Logger name
