@@ -1,18 +1,48 @@
 'use strict';
 
 
+const _loggers = new Map();
+
 /**
  * Just a simple logger.
  * The available log levels are: INFO, DEBUG, WARN, ERROR
  * @class Logger
- * @param {Number} logLevel - Must be one of Logger.LOG_LEVELS.
+ * @param {Object} options
+ * @param {Number} [options.logLevel=Logger.LOG_LEVELS.WARN] - Must be one of Logger.LOG_LEVELS.
+ * @param {String} [options.name='Logger'] - Name of the logger
  */
 class Logger {
 
-    constructor(logLevel = Logger.LOG_LEVELS.WARN) {
+    constructor(options = {}) {
+        const {
+            logLevel = Logger.LOG_LEVELS.WARN,
+            name = 'Logger'
+        } = options;
+
+        // Check parameters
         if (typeof logLevel === 'string')
             logLevel = Logger._getLogLevelFromString(logLevel);
         this._logLevel = logLevel;
+        this._name = name;
+
+        const logger = _loggers.get(name);
+        if (logger) {
+            if (logger.logLevel != logLevel)
+                console.warn(`Logger '${name}' requested with new level=${logLevel}, still using the old level='${logger.logLevel}'`);
+            return logger;
+        }
+        _loggers.set(name, this);
+    }
+
+    /**
+     * It returns the Logger instance with the specified name
+     * @param {String} name - Logger name
+     */
+    static getLogger(name) {
+        const logger = _loggers.get(name);
+        if (logger)
+            return logger;
+        throw new Error(`Logger ${name} not found`);
     }
 
     static get LOG_LEVELS() {
@@ -98,7 +128,7 @@ class Logger {
             return;
 
         const date = new Date().toJSON();
-        let logMessage = `${date} - [${Logger._logLevelToString(logLevel)}] - ${file}`;
+        let logMessage = `${date} - [${Logger._logLevelToString(logLevel)}] - ${this._name} - ${file}`;
         if (method)
             logMessage += ' -> ' + method;
         if (msg)
